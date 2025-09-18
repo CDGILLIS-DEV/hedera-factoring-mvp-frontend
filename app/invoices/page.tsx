@@ -151,7 +151,7 @@ export default function InvoicePage() {
             fetch(`http://localhost:8080/deals/invoice/${invoiceId}`)
             .then(res => res.json())
             .then(data => setDeals(Array.isArray(data) ? data : [data]))
-            .finally(() = setLoading(false));
+            .finally(() => setLoading(false));
         }, [invoiceId]);
 
         if (loading) return <div className="text-sm text-gray-400">Loading deals...</div>;
