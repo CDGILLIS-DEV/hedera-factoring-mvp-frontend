@@ -132,9 +132,63 @@ export default function InvoicePage() {
                           Fund This Invoice
                         </button>
                     )}
+
+                    {/* Fetch and Display Deals */}
+                    <div>
+                    <InvoiceDeals invoiceId={inv.id} />
+                    </div>
                 </li>
             ))}
         </ul>
     </div>
     );
+
+    function InvoiceDeals({ invoiceId }: { invoiceId: number }) {
+        const [deals, setDeals] = useState<any[]>([]);
+        const [loading, setLoading] = useState(true);
+
+        useEffect(() => {
+            fetch(`http://localhost:8080/deals/invoice/${invoiceId}`)
+            .then(res => res.json())
+            .then(data => setDeals(Array.isArray(data) ? data : [data]))
+            .finally(() = setLoading(false));
+        }, [invoiceId]);
+
+        if (loading) return <div className="text-sm text-gray-400">Loading deals...</div>;
+
+        if (deals.length === 0)
+            return <div className="text-sm text-gray-400">No deal yet</div>;
+
+        return (
+            <div className="mt-2 space-y-1">
+              <h4 className="font-medium text-sm">Deals:</h4>
+              <ul className="space-y-1">
+                {deals.map(d => (
+                  <li key={d.id} className="p-2 bg-white rounded border">
+                    <div>Purchaser: {d.purchaserAccountId}</div>
+                    <div>Price: {d.purchasePrice}</div>
+                    <div>Status: {d.status}</div>
+                    <div>
+                      TxId:{" "}
+                      {d.transactionId ? (
+                        <a
+                          href={`https://hashscan.io/testnet/transaction/${d.transactionId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          {d.transactionId}
+                        </a>
+                      ) : (
+                        "N/A"
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+    }
 }
+
+

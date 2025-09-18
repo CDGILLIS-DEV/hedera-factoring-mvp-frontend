@@ -27,7 +27,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+      <nav className="flex space-x-4 p-4 bg-gray-200">
+        <a href="/invoices?customerId=1" className="text-blue-700">Invoices</a>
+        <a href="/deals" className="text-blue-700">Deals</a>
+      </nav>
+        <main>
         {children}
+        </main>
       </body>
     </html>
   );
