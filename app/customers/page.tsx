@@ -16,12 +16,12 @@ export default function CustomersPage() {
       <h1 className="text-2xl font-bold mb-4">Customers</h1>
       <ul className="space-y-2">
         {customers.map((c) => (
-          <li key={c.id} className="p-4 rounded shadow bg-gray-100 hover:bg-gray-200">
+          <li key={c.id} className="p-4 rounded shadow bg-blue-900 hover:bg-blue-700">
             <Link href={`/invoices?customerId=${c.id}`}>
-              <div className="text-lg font-semibold text-blue-700 hover:underline">
+              <div className="text-lg font-semibold text-blue-300 hover:underline">
                 {c.name}
               </div>
-              <div className="text-gray-600">{c.email}</div>
+              <div className="text-cyan-200">{c.email}</div>
             </Link>
           </li>
         ))}

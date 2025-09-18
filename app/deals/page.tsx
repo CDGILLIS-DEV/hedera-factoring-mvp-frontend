@@ -15,7 +15,7 @@ export default function DealList() {
             <h1 className="text-xl font-bold">Deals</h1>
             <ul className="space-y-3">
               {deals.map(d => (
-                <li key={d.id} className="p-4 bg-green-100 rounded shadow">
+                <li key={d.id} className="p-4 bg-blue-900 rounded shadow">
                     <div>Invoice ID: {d.invoiceId}</div>
                     <div>Purchaser: {d.purchaserAccountId}</div>
                     <div>Purchase Price: {d.purchasePrice}</div>

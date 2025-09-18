@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { data } from "autoprefixer";
+
 
 export default function InvoicePage() {
     const searchParams = useSearchParams();
@@ -20,9 +20,9 @@ export default function InvoicePage() {
         if (customerId) {
             fetch(`http://localhost:8080/customers/${customerId}/invoices`)
             .then(res => res.json())
-            .then(data => {
+            .then(data => 
               setInvoices(Array.isArray(data) ? data: [data])
-            })
+            )
             .finally(() => setLoading(false));
         }
     }, [customerId]);
@@ -35,7 +35,7 @@ export default function InvoicePage() {
             amount: parseFloat(amount),
             currency,
             dueDate,
-            status: "OPEN"
+            status: "OPEN",
         };
 
         // Send create request
@@ -116,7 +116,7 @@ export default function InvoicePage() {
 
         {/* Invoice List */}
         <ul className="space-y-2">
-            {Array.isArray(invoices) && invoices.map((inv) => (
+            {Array.isArray(invoices) && invoices.map(inv => (
                 <li key={inv.id} className="p-4 bg-gray-600 rounded shadow">
                     <div className="font-semibold text-green-600">Amount: ${inv.amount} {inv.currency ?? "USD"}</div>
                     <div className="text-sm text-yellow-600">
