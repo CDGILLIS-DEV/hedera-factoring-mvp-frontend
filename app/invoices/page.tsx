@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 export default function InvoicePage() {
     const searchParams = useSearchParams();
     const customerId = searchParams.get("customerId");
+    const customerName = searchParams.get("name");
     
     const [ invoices, setInvoices ] = useState<any[]>([]);
     const [ loading, setLoading ] = useState(true);
@@ -159,12 +160,15 @@ export default function InvoicePage() {
         if (deals.length === 0)
             return <div className="text-sm text-gray-400">No deal yet</div>;
 
+        // Console Log For Debugging Purposes
+        console.log("Deals for invoice", invoiceId, deals) 
+
         return (
             <div className="mt-2 space-y-1">
               <h4 className="font-medium text-sm">Deals:</h4>
               <ul className="space-y-1">
-                {deals.map(d => (
-                  <li key={d.id} className="p-2 bg-white rounded border">
+                { deals.map(d => (
+                  <li key={d.id} className="p-2 bg-white text-black rounded border">
                     <div>Purchaser: {d.purchaserAccountId}</div>
                     <div>Price: {d.purchasePrice}</div>
                     <div>Status: {d.status}</div>
