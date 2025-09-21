@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { stat } from "fs";
 
 
 export default function InvoicePage() {
@@ -56,7 +57,7 @@ export default function InvoicePage() {
     }
 
     // Fund invoice
-    async function handleFund(invoiceId:number, amount: number) {
+    async function handleFund(invoiceId:number, amount: number, status: string, transactionId: string ) {
         const resp = await fetch("http://localhost:8080/deals", {
            method: "POST",
            headers: { "Content-Type": "application/json" },
@@ -64,6 +65,8 @@ export default function InvoicePage() {
             invoiceId: invoiceId,
             purchaserAccountId: "0.0.6351690",
             purchasePrice: amount,
+            status: status,
+            transactionId: " ",
            }), 
         });
         
@@ -88,6 +91,7 @@ export default function InvoicePage() {
           {/* New Invoice Form */}
           <form onSubmit={handleCreate} className="mb-6 space-y-4">
             <input 
+              name="amount"  
               type="number"
               placeholder="Amount"
               value={amount}
@@ -96,6 +100,7 @@ export default function InvoicePage() {
               required
             />
             <input 
+              name="currency"
               type="text"
               placeholder="Currency"
               value={currency}
@@ -103,7 +108,8 @@ export default function InvoicePage() {
               className="border p-2 rounded w-full"
               required
             />
-            <input 
+            <input
+              name="due_date" 
               type="date"
               value={dueDate}
               onChange={e => setDueDate(e.target.value)}
@@ -127,7 +133,7 @@ export default function InvoicePage() {
                     {/* Fund Button */}
                     {inv.status === "OPEN" && (
                         <button 
-                          onClick={() => handleFund(inv.id, inv.amount)}
+                          onClick={() => handleFund(inv.id, inv.amount, inv.status, inv.transactionId )}
                           className="bg-blue-600 text-white px-3 py-1 rounded"
                         >
                           Fund This Invoice
