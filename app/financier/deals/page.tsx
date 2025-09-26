@@ -8,7 +8,7 @@ export default function FinancierDealPage() {
     useEffect(() => {
         fetch("http://localhost:8080/deals/purchaser/${financierAccountId}")
             .then(res => res.json())
-            .then(data => setDeals(data));
+            .then(data => setDeals(Array.isArray(data) ? data : [data]));
     }, []);
 
     return (
@@ -16,7 +16,7 @@ export default function FinancierDealPage() {
             <h1 className="text-2xl font-bold mb-4">My Deals</h1>
             <ul className="space-y-4">
                 {deals.map(d => (
-                    <li key={d.id} className="p-4 bg-green-100 rounded shadow">
+                    <li key={d.id ?? `deal-${d.id}`} className="p-4 bg-green-100 rounded shadow">
                         <div>Deal #{d.id}</div>
                         <div>Invoice ID: {d.invoiceId}</div>
                         <div>Purchase Price: {d.purchasePrice}</div>
@@ -39,4 +39,6 @@ export default function FinancierDealPage() {
             </ul>
         </div>
     );
+
+
 }

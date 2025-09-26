@@ -8,7 +8,7 @@ export default function FinancierDashboard() {
     useEffect(() => {
         fetch("http://localhost:8080/invoices/open")
         .then(res => res.json())
-        .then(data => setInvoices(data));
+        .then(data => setInvoices(Array.isArray(data) ? data : [data]));
     }, []);
 
     const handleFund = async (invoiceId: number, amount: number) => {
