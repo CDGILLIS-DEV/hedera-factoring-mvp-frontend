@@ -2,8 +2,10 @@
 
 import { data } from "autoprefixer";
 import { useState, useEffect } from "react";
+import { useHashConnect } from "@/hooks/useHashConnect";
 
 export default function FinancierDashboard() {
+    const { pairingData } = useHashConnect("Hedra Factoring");
     const [invoices, setInvoices] = useState<any[]>([]);
     const financierAccountId = "0.0.6351690" // TODO: replace with wallet integration
     
@@ -23,7 +25,7 @@ export default function FinancierDashboard() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     invoiceId: invoiceId,
-                    purchaserAccountId: financierAccountId,
+                    purchaserAccountId: pairingData?.accountIds[0],
                     purchasePrice: amount
                 }),
             });
@@ -51,6 +53,14 @@ export default function FinancierDashboard() {
     return (
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Financier Dashboard</h1>
+
+            { !pairingData  ? (
+                <p className="text-red-600">Please connect HashPack to fund invoices.</p>
+            ) : (
+                <p className="text-green-600">
+                    Connected wallet: {pairingData?.accountIds[0]}
+                </p>
+            )}
 
             {invoices.length == 0 ? (
                 <p>No open invoices available.</p>
